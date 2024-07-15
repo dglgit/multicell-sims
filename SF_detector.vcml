@@ -1,0 +1,556 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This biomodel was generated in VCML Version Rel_Version_7.5.0_build_62.2-->
+<vcml xmlns="http://sourceforge.net/projects/vcell/vcml" Version="Rel_Version_7.5.0_build_62.2">
+  <BioModel Name="SF-detector">
+    <Model Name="model">
+      <Compound Name="s0" />
+      <Compound Name="s1" />
+      <Compound Name="s2" />
+      <Compound Name="s3" />
+      <Compound Name="s4" />
+      <Compound Name="s5" />
+      <Compound Name="s6" />
+      <Compound Name="s7" />
+      <Compound Name="s8" />
+      <Compound Name="s9" />
+      <Compound Name="s10" />
+      <Compound Name="s11" />
+      <Feature Name="Environment" KeyValue="270077158" />
+      <Feature Name="Cytoplasm" KeyValue="270077160" />
+      <LocalizedCompound Name="analyte" CompoundRef="s0" Structure="Environment" OverrideName="true" KeyValue="270077162" />
+      <LocalizedCompound Name="signal" CompoundRef="s1" Structure="Environment" OverrideName="true" KeyValue="270077163" />
+      <LocalizedCompound Name="analyte_inside" CompoundRef="s2" Structure="Cytoplasm" OverrideName="true" KeyValue="270077164" />
+      <LocalizedCompound Name="signal_inside" CompoundRef="s3" Structure="Cytoplasm" OverrideName="true" KeyValue="270077165" />
+      <LocalizedCompound Name="signal_operon" CompoundRef="s4" Structure="Cytoplasm" OverrideName="true" KeyValue="270077166" />
+      <LocalizedCompound Name="signal_mrna" CompoundRef="s5" Structure="Cytoplasm" OverrideName="true" KeyValue="270077167" />
+      <LocalizedCompound Name="analyte_operon" CompoundRef="s6" Structure="Cytoplasm" OverrideName="true" KeyValue="270077168" />
+      <LocalizedCompound Name="bound_analyte" CompoundRef="s7" Structure="Cytoplasm" OverrideName="true" KeyValue="270077169" />
+      <LocalizedCompound Name="bound_signal" CompoundRef="s8" Structure="Cytoplasm" OverrideName="true" KeyValue="270077170" />
+      <LocalizedCompound Name="reporter_mrna" CompoundRef="s9" Structure="Cytoplasm" OverrideName="true" KeyValue="270077171" />
+      <LocalizedCompound Name="reporter" CompoundRef="s10" Structure="Cytoplasm" OverrideName="true" KeyValue="270077172" />
+      <LocalizedCompound Name="degraded" CompoundRef="s11" Structure="Cytoplasm" OverrideName="true" KeyValue="270077173" />
+      <SimpleReaction Structure="Environment" Name="a_diffuse" Reversible="true" FluxOption="MolecularOnly" KeyValue="270077174">
+        <Reactant LocalizedCompoundRef="analyte" Stoichiometry="1" KeyValue="270077175" />
+        <Product LocalizedCompoundRef="analyte_inside" Stoichiometry="1" KeyValue="270077176" />
+        <Kinetics KineticsType="MassAction">
+          <Parameter Name="J" Role="reaction rate" Unit="uM.s-1">((Kf * analyte) - (Kr * analyte_inside))</Parameter>
+          <Parameter Name="Kf" Role="forward rate constant" Unit="s-1">1.0</Parameter>
+          <Parameter Name="Kr" Role="reverse rate constant" Unit="s-1">100.0</Parameter>
+        </Kinetics>
+      </SimpleReaction>
+      <SimpleReaction Structure="Cytoplasm" Name="analyte_bind" Reversible="true" FluxOption="MolecularOnly" KeyValue="270077177">
+        <Reactant LocalizedCompoundRef="analyte_inside" Stoichiometry="1" KeyValue="270077178" />
+        <Reactant LocalizedCompoundRef="analyte_operon" Stoichiometry="1" KeyValue="270077179" />
+        <Product LocalizedCompoundRef="bound_analyte" Stoichiometry="1" KeyValue="270077180" />
+        <Kinetics KineticsType="MassAction">
+          <Parameter Name="J" Role="reaction rate" Unit="uM.s-1">(((Kf * analyte_inside) * analyte_operon) - (Kr * bound_analyte))</Parameter>
+          <Parameter Name="Kf" Role="forward rate constant" Unit="s-1.uM-1">6.02</Parameter>
+          <Parameter Name="Kr" Role="reverse rate constant" Unit="s-1">1.0</Parameter>
+        </Kinetics>
+      </SimpleReaction>
+      <SimpleReaction Structure="Cytoplasm" Name="signal_transcribe" Reversible="true" FluxOption="MolecularOnly" KeyValue="270077181">
+        <Reactant LocalizedCompoundRef="bound_analyte" Stoichiometry="1" KeyValue="270077182" />
+        <Product LocalizedCompoundRef="signal_mrna" Stoichiometry="1" KeyValue="270077183" />
+        <Product LocalizedCompoundRef="bound_analyte" Stoichiometry="1" KeyValue="270077184" />
+        <Kinetics KineticsType="MassAction">
+          <Parameter Name="J" Role="reaction rate" Unit="uM.s-1">((Kf * bound_analyte) - ((Kr * signal_mrna) * bound_analyte))</Parameter>
+          <Parameter Name="Kf" Role="forward rate constant" Unit="s-1">1.0</Parameter>
+          <Parameter Name="Kr" Role="reverse rate constant" Unit="s-1.uM-1">0.0</Parameter>
+        </Kinetics>
+      </SimpleReaction>
+      <SimpleReaction Structure="Cytoplasm" Name="signal_bind" Reversible="true" FluxOption="MolecularOnly" KeyValue="270077185">
+        <Reactant LocalizedCompoundRef="signal_inside" Stoichiometry="1" KeyValue="270077186" />
+        <Reactant LocalizedCompoundRef="signal_operon" Stoichiometry="1" KeyValue="270077187" />
+        <Product LocalizedCompoundRef="bound_signal" Stoichiometry="1" KeyValue="270077188" />
+        <Kinetics KineticsType="MassAction">
+          <Parameter Name="J" Role="reaction rate" Unit="uM.s-1">(((Kf * signal_inside) * signal_operon) - (Kr * bound_signal))</Parameter>
+          <Parameter Name="Kf" Role="forward rate constant" Unit="s-1.uM-1">6.02</Parameter>
+          <Parameter Name="Kr" Role="reverse rate constant" Unit="s-1">1.0</Parameter>
+        </Kinetics>
+      </SimpleReaction>
+      <SimpleReaction Structure="Cytoplasm" Name="signal_translate" Reversible="true" FluxOption="MolecularOnly" KeyValue="270077189">
+        <Reactant LocalizedCompoundRef="signal_mrna" Stoichiometry="1" KeyValue="270077190" />
+        <Product LocalizedCompoundRef="signal_inside" Stoichiometry="1" KeyValue="270077191" />
+        <Product LocalizedCompoundRef="signal_mrna" Stoichiometry="1" KeyValue="270077192" />
+        <Kinetics KineticsType="MassAction">
+          <Parameter Name="J" Role="reaction rate" Unit="uM.s-1">((Kf * signal_mrna) - ((Kr * signal_inside) * signal_mrna))</Parameter>
+          <Parameter Name="Kf" Role="forward rate constant" Unit="s-1">1.0</Parameter>
+          <Parameter Name="Kr" Role="reverse rate constant" Unit="s-1.uM-1">0.0</Parameter>
+        </Kinetics>
+      </SimpleReaction>
+      <SimpleReaction Structure="Environment" Name="s_diffuse" Reversible="true" FluxOption="MolecularOnly" KeyValue="270077193">
+        <Reactant LocalizedCompoundRef="signal" Stoichiometry="1" KeyValue="270077194" />
+        <Product LocalizedCompoundRef="signal_inside" Stoichiometry="1" KeyValue="270077195" />
+        <Kinetics KineticsType="MassAction">
+          <Parameter Name="J" Role="reaction rate" Unit="uM.s-1">((Kf * signal) - (Kr * signal_inside))</Parameter>
+          <Parameter Name="Kf" Role="forward rate constant" Unit="s-1">1.0</Parameter>
+          <Parameter Name="Kr" Role="reverse rate constant" Unit="s-1">100.0</Parameter>
+        </Kinetics>
+      </SimpleReaction>
+      <SimpleReaction Structure="Cytoplasm" Name="repoter_transcribe" Reversible="true" FluxOption="MolecularOnly" KeyValue="270077196">
+        <Reactant LocalizedCompoundRef="bound_signal" Stoichiometry="1" KeyValue="270077197" />
+        <Product LocalizedCompoundRef="reporter_mrna" Stoichiometry="1" KeyValue="270077198" />
+        <Product LocalizedCompoundRef="bound_signal" Stoichiometry="1" KeyValue="270077199" />
+        <Kinetics KineticsType="MassAction">
+          <Parameter Name="J" Role="reaction rate" Unit="uM.s-1">((Kf * bound_signal) - ((Kr * reporter_mrna) * bound_signal))</Parameter>
+          <Parameter Name="Kf" Role="forward rate constant" Unit="s-1">1.0</Parameter>
+          <Parameter Name="Kr" Role="reverse rate constant" Unit="s-1.uM-1">0.0</Parameter>
+        </Kinetics>
+      </SimpleReaction>
+      <SimpleReaction Structure="Cytoplasm" Name="reporter_translate" Reversible="true" FluxOption="MolecularOnly" KeyValue="270077200">
+        <Reactant LocalizedCompoundRef="reporter_mrna" Stoichiometry="1" KeyValue="270077201" />
+        <Product LocalizedCompoundRef="reporter" Stoichiometry="1" KeyValue="270077202" />
+        <Product LocalizedCompoundRef="reporter_mrna" Stoichiometry="1" KeyValue="270077203" />
+        <Kinetics KineticsType="MassAction">
+          <Parameter Name="J" Role="reaction rate" Unit="uM.s-1">((Kf * reporter_mrna) - ((Kr * reporter) * reporter_mrna))</Parameter>
+          <Parameter Name="Kf" Role="forward rate constant" Unit="s-1">1.0</Parameter>
+          <Parameter Name="Kr" Role="reverse rate constant" Unit="s-1.uM-1">0.0</Parameter>
+        </Kinetics>
+      </SimpleReaction>
+      <SimpleReaction Structure="Cytoplasm" Name="signal_mrna_degrade" Reversible="true" FluxOption="MolecularOnly" KeyValue="270077204">
+        <Reactant LocalizedCompoundRef="signal_mrna" Stoichiometry="1" KeyValue="270077205" />
+        <Product LocalizedCompoundRef="degraded" Stoichiometry="1" KeyValue="270077206" />
+        <Kinetics KineticsType="MassAction">
+          <Parameter Name="J" Role="reaction rate" Unit="uM.s-1">((Kf * signal_mrna) - (Kr * degraded))</Parameter>
+          <Parameter Name="Kf" Role="forward rate constant" Unit="s-1">0.01</Parameter>
+          <Parameter Name="Kr" Role="reverse rate constant" Unit="s-1">0.0</Parameter>
+        </Kinetics>
+      </SimpleReaction>
+      <SimpleReaction Structure="Cytoplasm" Name="reporter_mrna_degrade" Reversible="true" FluxOption="MolecularOnly" KeyValue="270077207">
+        <Reactant LocalizedCompoundRef="reporter_mrna" Stoichiometry="1" KeyValue="270077208" />
+        <Product LocalizedCompoundRef="degraded" Stoichiometry="1" KeyValue="270077209" />
+        <Kinetics KineticsType="MassAction">
+          <Parameter Name="J" Role="reaction rate" Unit="uM.s-1">((Kf * reporter_mrna) - (Kr * degraded))</Parameter>
+          <Parameter Name="Kf" Role="forward rate constant" Unit="s-1">0.01</Parameter>
+          <Parameter Name="Kr" Role="reverse rate constant" Unit="s-1">0.0</Parameter>
+        </Kinetics>
+      </SimpleReaction>
+      <SimpleReaction Structure="Cytoplasm" Name="reporter_degrade" Reversible="true" FluxOption="MolecularOnly" KeyValue="270077210">
+        <Reactant LocalizedCompoundRef="reporter" Stoichiometry="1" KeyValue="270077211" />
+        <Product LocalizedCompoundRef="degraded" Stoichiometry="1" KeyValue="270077212" />
+        <Kinetics KineticsType="MassAction">
+          <Parameter Name="J" Role="reaction rate" Unit="uM.s-1">((Kf * reporter) - (Kr * degraded))</Parameter>
+          <Parameter Name="Kf" Role="forward rate constant" Unit="s-1">0.01</Parameter>
+          <Parameter Name="Kr" Role="reverse rate constant" Unit="s-1">0.0</Parameter>
+        </Kinetics>
+      </SimpleReaction>
+      <Diagram Name="c0" Structure="Environment">
+        <LocalizedCompoundShape NodeReferenceModeAttrTag="full" LocalizedCompoundRef="analyte" LocationX="110" LocationY="37" />
+        <SimpleReactionShape NodeReferenceModeAttrTag="full" SimpleReactionRef="repoter_transcribe" LocationX="221" LocationY="167" />
+        <SimpleReactionShape NodeReferenceModeAttrTag="full" SimpleReactionRef="signal_bind" LocationX="125" LocationY="200" />
+        <LocalizedCompoundShape NodeReferenceModeAttrTag="full" LocalizedCompoundRef="analyte_inside" LocationX="17" LocationY="32" />
+        <LocalizedCompoundShape NodeReferenceModeAttrTag="full" LocalizedCompoundRef="signal_inside" LocationX="43" LocationY="209" />
+        <SimpleReactionShape NodeReferenceModeAttrTag="full" SimpleReactionRef="reporter_mrna_degrade" LocationX="216" LocationY="96" />
+        <SimpleReactionShape NodeReferenceModeAttrTag="full" SimpleReactionRef="reporter_translate" LocationX="247" LocationY="126" />
+        <LocalizedCompoundShape NodeReferenceModeAttrTag="full" LocalizedCompoundRef="analyte_operon" LocationX="25" LocationY="100" />
+        <LocalizedCompoundShape NodeReferenceModeAttrTag="full" LocalizedCompoundRef="degraded" LocationX="185" LocationY="36" />
+        <SimpleReactionShape NodeReferenceModeAttrTag="full" SimpleReactionRef="analyte_bind" LocationX="69" LocationY="138" />
+        <SimpleReactionShape NodeReferenceModeAttrTag="full" SimpleReactionRef="s_diffuse" LocationX="222" LocationY="90" />
+        <LocalizedCompoundShape NodeReferenceModeAttrTag="full" LocalizedCompoundRef="reporter_mrna" LocationX="231" LocationY="139" />
+        <LocalizedCompoundShape NodeReferenceModeAttrTag="full" LocalizedCompoundRef="reporter" LocationX="243" LocationY="99" />
+        <SimpleReactionShape NodeReferenceModeAttrTag="full" SimpleReactionRef="signal_transcribe" LocationX="129" LocationY="136" />
+        <SimpleReactionShape NodeReferenceModeAttrTag="full" SimpleReactionRef="reporter_degrade" LocationX="222" LocationY="75" />
+        <LocalizedCompoundShape NodeReferenceModeAttrTag="full" LocalizedCompoundRef="signal_mrna" LocationX="124" LocationY="88" />
+        <SimpleReactionShape NodeReferenceModeAttrTag="full" SimpleReactionRef="signal_translate" LocationX="200" LocationY="113" />
+        <SimpleReactionShape NodeReferenceModeAttrTag="full" SimpleReactionRef="signal_mrna_degrade" LocationX="164" LocationY="70" />
+        <LocalizedCompoundShape NodeReferenceModeAttrTag="full" LocalizedCompoundRef="signal_operon" LocationX="161" LocationY="232" />
+        <LocalizedCompoundShape NodeReferenceModeAttrTag="full" LocalizedCompoundRef="bound_signal" LocationX="192" LocationY="182" />
+        <LocalizedCompoundShape NodeReferenceModeAttrTag="full" LocalizedCompoundRef="bound_analyte" LocationX="67" LocationY="67" />
+        <LocalizedCompoundShape NodeReferenceModeAttrTag="full" LocalizedCompoundRef="signal" LocationX="118" LocationY="117" />
+        <SimpleReactionShape NodeReferenceModeAttrTag="full" SimpleReactionRef="a_diffuse" LocationX="201" LocationY="64" />
+      </Diagram>
+      <Diagram Name="c1" Structure="Cytoplasm">
+        <LocalizedCompoundShape NodeReferenceModeAttrTag="full" LocalizedCompoundRef="analyte" LocationX="110" LocationY="37" />
+        <SimpleReactionShape NodeReferenceModeAttrTag="full" SimpleReactionRef="repoter_transcribe" LocationX="221" LocationY="167" />
+        <SimpleReactionShape NodeReferenceModeAttrTag="full" SimpleReactionRef="signal_bind" LocationX="125" LocationY="200" />
+        <LocalizedCompoundShape NodeReferenceModeAttrTag="full" LocalizedCompoundRef="analyte_inside" LocationX="17" LocationY="32" />
+        <LocalizedCompoundShape NodeReferenceModeAttrTag="full" LocalizedCompoundRef="signal_inside" LocationX="43" LocationY="209" />
+        <SimpleReactionShape NodeReferenceModeAttrTag="full" SimpleReactionRef="reporter_mrna_degrade" LocationX="216" LocationY="96" />
+        <SimpleReactionShape NodeReferenceModeAttrTag="full" SimpleReactionRef="reporter_translate" LocationX="247" LocationY="126" />
+        <LocalizedCompoundShape NodeReferenceModeAttrTag="full" LocalizedCompoundRef="analyte_operon" LocationX="25" LocationY="100" />
+        <LocalizedCompoundShape NodeReferenceModeAttrTag="full" LocalizedCompoundRef="degraded" LocationX="185" LocationY="36" />
+        <SimpleReactionShape NodeReferenceModeAttrTag="full" SimpleReactionRef="analyte_bind" LocationX="69" LocationY="138" />
+        <SimpleReactionShape NodeReferenceModeAttrTag="full" SimpleReactionRef="s_diffuse" LocationX="222" LocationY="90" />
+        <LocalizedCompoundShape NodeReferenceModeAttrTag="full" LocalizedCompoundRef="reporter_mrna" LocationX="231" LocationY="139" />
+        <LocalizedCompoundShape NodeReferenceModeAttrTag="full" LocalizedCompoundRef="reporter" LocationX="243" LocationY="99" />
+        <SimpleReactionShape NodeReferenceModeAttrTag="full" SimpleReactionRef="signal_transcribe" LocationX="129" LocationY="136" />
+        <SimpleReactionShape NodeReferenceModeAttrTag="full" SimpleReactionRef="reporter_degrade" LocationX="222" LocationY="75" />
+        <LocalizedCompoundShape NodeReferenceModeAttrTag="full" LocalizedCompoundRef="signal_mrna" LocationX="124" LocationY="88" />
+        <SimpleReactionShape NodeReferenceModeAttrTag="full" SimpleReactionRef="signal_translate" LocationX="200" LocationY="113" />
+        <SimpleReactionShape NodeReferenceModeAttrTag="full" SimpleReactionRef="signal_mrna_degrade" LocationX="164" LocationY="70" />
+        <LocalizedCompoundShape NodeReferenceModeAttrTag="full" LocalizedCompoundRef="signal_operon" LocationX="161" LocationY="232" />
+        <LocalizedCompoundShape NodeReferenceModeAttrTag="full" LocalizedCompoundRef="bound_signal" LocationX="192" LocationY="182" />
+        <LocalizedCompoundShape NodeReferenceModeAttrTag="full" LocalizedCompoundRef="bound_analyte" LocationX="67" LocationY="67" />
+        <LocalizedCompoundShape NodeReferenceModeAttrTag="full" LocalizedCompoundRef="signal" LocationX="118" LocationY="117" />
+        <SimpleReactionShape NodeReferenceModeAttrTag="full" SimpleReactionRef="a_diffuse" LocationX="201" LocationY="64" />
+      </Diagram>
+      <Version Name="model" KeyValue="270077144" BranchId="270076450" Archived="0" Date="18-Mar-2024 22:02:30" FromVersionable="false">
+        <Owner Name="dglVcell" Identifier="202231687" />
+        <GroupAccess Type="1" />
+      </Version>
+      <ModelUnitSystem VolumeSubstanceUnit="uM.um3" MembraneSubstanceUnit="molecules" LumpedReactionSubstanceUnit="molecules" VolumeUnit="um3" AreaUnit="um2" LengthUnit="um" TimeUnit="s" />
+    </Model>
+    <SimulationSpec Name="Application0" Stochastic="true" UseConcentration="false" RandomizeInitCondition="false" RuleBased="false" MassConservationModelReduction="false" InsufficientIterations="false" InsufficientMaxMolecules="false">
+      <NetworkConstraints RbmMaxIteration="1" RbmMaxMoleculesPerSpecies="10" RbmSpeciesLimit="800" RbmReactionsLimit="2500" />
+      <Annotation />
+      <Geometry Name="non-spatial1750737372" Dimension="0">
+        <Extent X="10.0" Y="10.0" Z="10.0" />
+        <Origin X="0.0" Y="0.0" Z="0.0" />
+        <SubVolume Name="Compartment" Handle="0" Type="Compartmental" KeyValue="270076445" />
+        <Version Name="non-spatial1750737372" KeyValue="270076441" BranchId="270076442" Archived="0" Date="18-Mar-2024 21:52:33" FromVersionable="false">
+          <Owner Name="dglVcell" Identifier="202231687" />
+          <GroupAccess Type="1" />
+        </Version>
+      </Geometry>
+      <GeometryContext>
+        <FeatureMapping Feature="Environment" GeometryClass="Compartment" SubVolume="Compartment" Size="1.0">
+          <BoundariesTypes Xm="Flux" Xp="Flux" Ym="Flux" Yp="Flux" Zm="Flux" Zp="Flux" />
+        </FeatureMapping>
+        <FeatureMapping Feature="Cytoplasm" GeometryClass="Compartment" SubVolume="Compartment" Size="1.0">
+          <BoundariesTypes Xm="Flux" Xp="Flux" Ym="Flux" Yp="Flux" Zm="Flux" Zp="Flux" />
+        </FeatureMapping>
+      </GeometryContext>
+      <ReactionContext>
+        <LocalizedCompoundSpec LocalizedCompoundRef="analyte" ForceConstant="false" WellMixed="false" ForceContinuous="false">
+          <InitialCount>10000.0</InitialCount>
+          <Diffusion>0.0</Diffusion>
+        </LocalizedCompoundSpec>
+        <LocalizedCompoundSpec LocalizedCompoundRef="signal" ForceConstant="false" WellMixed="false" ForceContinuous="false">
+          <InitialCount>0.0</InitialCount>
+          <Diffusion>0.0</Diffusion>
+        </LocalizedCompoundSpec>
+        <LocalizedCompoundSpec LocalizedCompoundRef="analyte_inside" ForceConstant="false" WellMixed="false" ForceContinuous="false">
+          <InitialCount>0.0</InitialCount>
+          <Diffusion>0.0</Diffusion>
+        </LocalizedCompoundSpec>
+        <LocalizedCompoundSpec LocalizedCompoundRef="signal_inside" ForceConstant="false" WellMixed="false" ForceContinuous="false">
+          <InitialCount>0.0</InitialCount>
+          <Diffusion>0.0</Diffusion>
+        </LocalizedCompoundSpec>
+        <LocalizedCompoundSpec LocalizedCompoundRef="signal_operon" ForceConstant="false" WellMixed="false" ForceContinuous="false">
+          <InitialCount>100.0</InitialCount>
+          <Diffusion>0.0</Diffusion>
+        </LocalizedCompoundSpec>
+        <LocalizedCompoundSpec LocalizedCompoundRef="signal_mrna" ForceConstant="false" WellMixed="false" ForceContinuous="false">
+          <InitialCount>0.0</InitialCount>
+          <Diffusion>0.0</Diffusion>
+        </LocalizedCompoundSpec>
+        <LocalizedCompoundSpec LocalizedCompoundRef="analyte_operon" ForceConstant="false" WellMixed="false" ForceContinuous="false">
+          <InitialCount>100.0</InitialCount>
+          <Diffusion>0.0</Diffusion>
+        </LocalizedCompoundSpec>
+        <LocalizedCompoundSpec LocalizedCompoundRef="bound_analyte" ForceConstant="false" WellMixed="false" ForceContinuous="false">
+          <InitialCount>0.0</InitialCount>
+          <Diffusion>0.0</Diffusion>
+        </LocalizedCompoundSpec>
+        <LocalizedCompoundSpec LocalizedCompoundRef="bound_signal" ForceConstant="false" WellMixed="false" ForceContinuous="false">
+          <InitialCount>0.0</InitialCount>
+          <Diffusion>0.0</Diffusion>
+        </LocalizedCompoundSpec>
+        <LocalizedCompoundSpec LocalizedCompoundRef="reporter_mrna" ForceConstant="false" WellMixed="false" ForceContinuous="false">
+          <InitialCount>0.0</InitialCount>
+          <Diffusion>0.0</Diffusion>
+        </LocalizedCompoundSpec>
+        <LocalizedCompoundSpec LocalizedCompoundRef="reporter" ForceConstant="false" WellMixed="false" ForceContinuous="false">
+          <InitialCount>0.0</InitialCount>
+          <Diffusion>0.0</Diffusion>
+        </LocalizedCompoundSpec>
+        <LocalizedCompoundSpec LocalizedCompoundRef="degraded" ForceConstant="false" WellMixed="false" ForceContinuous="false">
+          <InitialCount>0.0</InitialCount>
+          <Diffusion>0.0</Diffusion>
+        </LocalizedCompoundSpec>
+        <ReactionSpec ReactionStepRef="a_diffuse" ReactionMapping="included" />
+        <ReactionSpec ReactionStepRef="analyte_bind" ReactionMapping="included" />
+        <ReactionSpec ReactionStepRef="signal_transcribe" ReactionMapping="included" />
+        <ReactionSpec ReactionStepRef="signal_bind" ReactionMapping="included" />
+        <ReactionSpec ReactionStepRef="signal_translate" ReactionMapping="included" />
+        <ReactionSpec ReactionStepRef="s_diffuse" ReactionMapping="included" />
+        <ReactionSpec ReactionStepRef="repoter_transcribe" ReactionMapping="included" />
+        <ReactionSpec ReactionStepRef="reporter_translate" ReactionMapping="included" />
+        <ReactionSpec ReactionStepRef="signal_mrna_degrade" ReactionMapping="included" />
+        <ReactionSpec ReactionStepRef="reporter_mrna_degrade" ReactionMapping="included" />
+        <ReactionSpec ReactionStepRef="reporter_degrade" ReactionMapping="included" />
+      </ReactionContext>
+      <MathDescription Name="Application0_generated">
+        <Constant Name="_F_">96485.3321</Constant>
+        <Constant Name="_F_nmol_">9.64853321E-5</Constant>
+        <Constant Name="_N_pmol_">6.02214179E11</Constant>
+        <Constant Name="_PI_">3.141592653589793</Constant>
+        <Constant Name="_R_">8314.46261815</Constant>
+        <Constant Name="_T_">300.0</Constant>
+        <Constant Name="analyte_Count_initCount">10000.0</Constant>
+        <Constant Name="analyte_inside_Count_initCount">0.0</Constant>
+        <Constant Name="analyte_operon_Count_initCount">100.0</Constant>
+        <Constant Name="bound_analyte_Count_initCount">0.0</Constant>
+        <Constant Name="bound_signal_Count_initCount">0.0</Constant>
+        <Constant Name="degraded_Count_initCount">0.0</Constant>
+        <Constant Name="Kf_a_diffuse">1.0</Constant>
+        <Constant Name="Kf_analyte_bind">6.02</Constant>
+        <Constant Name="Kf_reporter_degrade">0.01</Constant>
+        <Constant Name="Kf_reporter_mrna_degrade">0.01</Constant>
+        <Constant Name="Kf_reporter_translate">1.0</Constant>
+        <Constant Name="Kf_repoter_transcribe">1.0</Constant>
+        <Constant Name="Kf_s_diffuse">1.0</Constant>
+        <Constant Name="Kf_signal_bind">6.02</Constant>
+        <Constant Name="Kf_signal_mrna_degrade">0.01</Constant>
+        <Constant Name="Kf_signal_transcribe">1.0</Constant>
+        <Constant Name="Kf_signal_translate">1.0</Constant>
+        <Constant Name="KMOLE">0.001660538783162726</Constant>
+        <Constant Name="Kr_a_diffuse">100.0</Constant>
+        <Constant Name="Kr_analyte_bind">1.0</Constant>
+        <Constant Name="Kr_reporter_degrade">0.0</Constant>
+        <Constant Name="Kr_reporter_mrna_degrade">0.0</Constant>
+        <Constant Name="Kr_reporter_translate">0.0</Constant>
+        <Constant Name="Kr_repoter_transcribe">0.0</Constant>
+        <Constant Name="Kr_s_diffuse">100.0</Constant>
+        <Constant Name="Kr_signal_bind">1.0</Constant>
+        <Constant Name="Kr_signal_mrna_degrade">0.0</Constant>
+        <Constant Name="Kr_signal_transcribe">0.0</Constant>
+        <Constant Name="Kr_signal_translate">0.0</Constant>
+        <Constant Name="reporter_Count_initCount">0.0</Constant>
+        <Constant Name="reporter_mrna_Count_initCount">0.0</Constant>
+        <Constant Name="signal_Count_initCount">0.0</Constant>
+        <Constant Name="signal_inside_Count_initCount">0.0</Constant>
+        <Constant Name="signal_mrna_Count_initCount">0.0</Constant>
+        <Constant Name="signal_operon_Count_initCount">100.0</Constant>
+        <Constant Name="Size_Cytoplasm">1.0</Constant>
+        <Constant Name="Size_Environment">1.0</Constant>
+        <Constant Name="UnitFactor_molecules_uM_neg_1_um_neg_3">(1.0 * pow(KMOLE, - 1.0))</Constant>
+        <Constant Name="UnitFactor_uM_um3_molecules_neg_1">(1.0 * pow(KMOLE,1.0))</Constant>
+        <StochasticVolumeVariable Name="analyte_Count" />
+        <StochasticVolumeVariable Name="analyte_inside_Count" />
+        <StochasticVolumeVariable Name="analyte_operon_Count" />
+        <StochasticVolumeVariable Name="bound_analyte_Count" />
+        <StochasticVolumeVariable Name="bound_signal_Count" />
+        <StochasticVolumeVariable Name="degraded_Count" />
+        <StochasticVolumeVariable Name="reporter_Count" />
+        <StochasticVolumeVariable Name="reporter_mrna_Count" />
+        <StochasticVolumeVariable Name="signal_Count" />
+        <StochasticVolumeVariable Name="signal_inside_Count" />
+        <StochasticVolumeVariable Name="signal_mrna_Count" />
+        <StochasticVolumeVariable Name="signal_operon_Count" />
+        <Function Name="analyte" Domain="Compartment">((UnitFactor_uM_um3_molecules_neg_1 * analyte_Count) / Size_Environment)</Function>
+        <Function Name="analyte_inside" Domain="Compartment">((UnitFactor_uM_um3_molecules_neg_1 * analyte_inside_Count) / Size_Cytoplasm)</Function>
+        <Function Name="analyte_operon" Domain="Compartment">((UnitFactor_uM_um3_molecules_neg_1 * analyte_operon_Count) / Size_Cytoplasm)</Function>
+        <Function Name="bound_analyte" Domain="Compartment">((UnitFactor_uM_um3_molecules_neg_1 * bound_analyte_Count) / Size_Cytoplasm)</Function>
+        <Function Name="bound_signal" Domain="Compartment">((UnitFactor_uM_um3_molecules_neg_1 * bound_signal_Count) / Size_Cytoplasm)</Function>
+        <Function Name="degraded" Domain="Compartment">((UnitFactor_uM_um3_molecules_neg_1 * degraded_Count) / Size_Cytoplasm)</Function>
+        <Function Name="J_a_diffuse" Domain="Compartment">((Kf_a_diffuse * analyte) - (Kr_a_diffuse * analyte_inside))</Function>
+        <Function Name="J_analyte_bind" Domain="Compartment">(((Kf_analyte_bind * analyte_inside) * analyte_operon) - (Kr_analyte_bind * bound_analyte))</Function>
+        <Function Name="J_reporter_degrade" Domain="Compartment">((Kf_reporter_degrade * reporter) - (Kr_reporter_degrade * degraded))</Function>
+        <Function Name="J_reporter_mrna_degrade" Domain="Compartment">((Kf_reporter_mrna_degrade * reporter_mrna) - (Kr_reporter_mrna_degrade * degraded))</Function>
+        <Function Name="J_reporter_translate" Domain="Compartment">((Kf_reporter_translate * reporter_mrna) - ((Kr_reporter_translate * reporter) * reporter_mrna))</Function>
+        <Function Name="J_repoter_transcribe" Domain="Compartment">((Kf_repoter_transcribe * bound_signal) - ((Kr_repoter_transcribe * reporter_mrna) * bound_signal))</Function>
+        <Function Name="J_s_diffuse" Domain="Compartment">((Kf_s_diffuse * signal) - (Kr_s_diffuse * signal_inside))</Function>
+        <Function Name="J_signal_bind" Domain="Compartment">(((Kf_signal_bind * signal_inside) * signal_operon) - (Kr_signal_bind * bound_signal))</Function>
+        <Function Name="J_signal_mrna_degrade" Domain="Compartment">((Kf_signal_mrna_degrade * signal_mrna) - (Kr_signal_mrna_degrade * degraded))</Function>
+        <Function Name="J_signal_transcribe" Domain="Compartment">((Kf_signal_transcribe * bound_analyte) - ((Kr_signal_transcribe * signal_mrna) * bound_analyte))</Function>
+        <Function Name="J_signal_translate" Domain="Compartment">((Kf_signal_translate * signal_mrna) - ((Kr_signal_translate * signal_inside) * signal_mrna))</Function>
+        <Function Name="P_a_diffuse_probabilityRate" Domain="Compartment">(Kf_a_diffuse * analyte_Count * UnitFactor_molecules_uM_neg_1_um_neg_3 * UnitFactor_uM_um3_molecules_neg_1)</Function>
+        <Function Name="P_a_diffuse_reverse_probabilityRate" Domain="Compartment">(Kr_a_diffuse * analyte_inside_Count * Size_Environment * UnitFactor_molecules_uM_neg_1_um_neg_3 * UnitFactor_uM_um3_molecules_neg_1 / Size_Cytoplasm)</Function>
+        <Function Name="P_analyte_bind_probabilityRate" Domain="Compartment">(Kf_analyte_bind * analyte_inside_Count * analyte_operon_Count * UnitFactor_molecules_uM_neg_1_um_neg_3 * UnitFactor_uM_um3_molecules_neg_1 * UnitFactor_uM_um3_molecules_neg_1 / Size_Cytoplasm)</Function>
+        <Function Name="P_analyte_bind_reverse_probabilityRate" Domain="Compartment">(Kr_analyte_bind * bound_analyte_Count * UnitFactor_molecules_uM_neg_1_um_neg_3 * UnitFactor_uM_um3_molecules_neg_1)</Function>
+        <Function Name="P_reporter_degrade_probabilityRate" Domain="Compartment">(Kf_reporter_degrade * reporter_Count * UnitFactor_molecules_uM_neg_1_um_neg_3 * UnitFactor_uM_um3_molecules_neg_1)</Function>
+        <Function Name="P_reporter_degrade_reverse_probabilityRate" Domain="Compartment">(Kr_reporter_degrade * degraded_Count * UnitFactor_molecules_uM_neg_1_um_neg_3 * UnitFactor_uM_um3_molecules_neg_1)</Function>
+        <Function Name="P_reporter_mrna_degrade_probabilityRate" Domain="Compartment">(Kf_reporter_mrna_degrade * reporter_mrna_Count * UnitFactor_molecules_uM_neg_1_um_neg_3 * UnitFactor_uM_um3_molecules_neg_1)</Function>
+        <Function Name="P_reporter_mrna_degrade_reverse_probabilityRate" Domain="Compartment">(Kr_reporter_mrna_degrade * degraded_Count * UnitFactor_molecules_uM_neg_1_um_neg_3 * UnitFactor_uM_um3_molecules_neg_1)</Function>
+        <Function Name="P_reporter_translate_probabilityRate" Domain="Compartment">(Kf_reporter_translate * reporter_mrna_Count * UnitFactor_molecules_uM_neg_1_um_neg_3 * UnitFactor_uM_um3_molecules_neg_1)</Function>
+        <Function Name="P_reporter_translate_reverse_probabilityRate" Domain="Compartment">(Kr_reporter_translate * reporter_Count * reporter_mrna_Count * UnitFactor_molecules_uM_neg_1_um_neg_3 * UnitFactor_uM_um3_molecules_neg_1 * UnitFactor_uM_um3_molecules_neg_1 / Size_Cytoplasm)</Function>
+        <Function Name="P_repoter_transcribe_probabilityRate" Domain="Compartment">(Kf_repoter_transcribe * bound_signal_Count * UnitFactor_molecules_uM_neg_1_um_neg_3 * UnitFactor_uM_um3_molecules_neg_1)</Function>
+        <Function Name="P_repoter_transcribe_reverse_probabilityRate" Domain="Compartment">(Kr_repoter_transcribe * reporter_mrna_Count * bound_signal_Count * UnitFactor_molecules_uM_neg_1_um_neg_3 * UnitFactor_uM_um3_molecules_neg_1 * UnitFactor_uM_um3_molecules_neg_1 / Size_Cytoplasm)</Function>
+        <Function Name="P_s_diffuse_probabilityRate" Domain="Compartment">(Kf_s_diffuse * signal_Count * UnitFactor_molecules_uM_neg_1_um_neg_3 * UnitFactor_uM_um3_molecules_neg_1)</Function>
+        <Function Name="P_s_diffuse_reverse_probabilityRate" Domain="Compartment">(Kr_s_diffuse * signal_inside_Count * Size_Environment * UnitFactor_molecules_uM_neg_1_um_neg_3 * UnitFactor_uM_um3_molecules_neg_1 / Size_Cytoplasm)</Function>
+        <Function Name="P_signal_bind_probabilityRate" Domain="Compartment">(Kf_signal_bind * signal_inside_Count * signal_operon_Count * UnitFactor_molecules_uM_neg_1_um_neg_3 * UnitFactor_uM_um3_molecules_neg_1 * UnitFactor_uM_um3_molecules_neg_1 / Size_Cytoplasm)</Function>
+        <Function Name="P_signal_bind_reverse_probabilityRate" Domain="Compartment">(Kr_signal_bind * bound_signal_Count * UnitFactor_molecules_uM_neg_1_um_neg_3 * UnitFactor_uM_um3_molecules_neg_1)</Function>
+        <Function Name="P_signal_mrna_degrade_probabilityRate" Domain="Compartment">(Kf_signal_mrna_degrade * signal_mrna_Count * UnitFactor_molecules_uM_neg_1_um_neg_3 * UnitFactor_uM_um3_molecules_neg_1)</Function>
+        <Function Name="P_signal_mrna_degrade_reverse_probabilityRate" Domain="Compartment">(Kr_signal_mrna_degrade * degraded_Count * UnitFactor_molecules_uM_neg_1_um_neg_3 * UnitFactor_uM_um3_molecules_neg_1)</Function>
+        <Function Name="P_signal_transcribe_probabilityRate" Domain="Compartment">(Kf_signal_transcribe * bound_analyte_Count * UnitFactor_molecules_uM_neg_1_um_neg_3 * UnitFactor_uM_um3_molecules_neg_1)</Function>
+        <Function Name="P_signal_transcribe_reverse_probabilityRate" Domain="Compartment">(Kr_signal_transcribe * signal_mrna_Count * bound_analyte_Count * UnitFactor_molecules_uM_neg_1_um_neg_3 * UnitFactor_uM_um3_molecules_neg_1 * UnitFactor_uM_um3_molecules_neg_1 / Size_Cytoplasm)</Function>
+        <Function Name="P_signal_translate_probabilityRate" Domain="Compartment">(Kf_signal_translate * signal_mrna_Count * UnitFactor_molecules_uM_neg_1_um_neg_3 * UnitFactor_uM_um3_molecules_neg_1)</Function>
+        <Function Name="P_signal_translate_reverse_probabilityRate" Domain="Compartment">(Kr_signal_translate * signal_inside_Count * signal_mrna_Count * UnitFactor_molecules_uM_neg_1_um_neg_3 * UnitFactor_uM_um3_molecules_neg_1 * UnitFactor_uM_um3_molecules_neg_1 / Size_Cytoplasm)</Function>
+        <Function Name="reporter" Domain="Compartment">((UnitFactor_uM_um3_molecules_neg_1 * reporter_Count) / Size_Cytoplasm)</Function>
+        <Function Name="reporter_mrna" Domain="Compartment">((UnitFactor_uM_um3_molecules_neg_1 * reporter_mrna_Count) / Size_Cytoplasm)</Function>
+        <Function Name="signal" Domain="Compartment">((UnitFactor_uM_um3_molecules_neg_1 * signal_Count) / Size_Environment)</Function>
+        <Function Name="signal_inside" Domain="Compartment">((UnitFactor_uM_um3_molecules_neg_1 * signal_inside_Count) / Size_Cytoplasm)</Function>
+        <Function Name="signal_mrna" Domain="Compartment">((UnitFactor_uM_um3_molecules_neg_1 * signal_mrna_Count) / Size_Cytoplasm)</Function>
+        <Function Name="signal_operon" Domain="Compartment">((UnitFactor_uM_um3_molecules_neg_1 * signal_operon_Count) / Size_Cytoplasm)</Function>
+        <CompartmentSubDomain Name="Compartment">
+          <BoundaryType Boundary="Xm" Type="Value" />
+          <BoundaryType Boundary="Xp" Type="Value" />
+          <BoundaryType Boundary="Ym" Type="Value" />
+          <BoundaryType Boundary="Yp" Type="Value" />
+          <BoundaryType Boundary="Zm" Type="Value" />
+          <BoundaryType Boundary="Zp" Type="Value" />
+          <VariableInitialCount Name="analyte_Count">analyte_Count_initCount</VariableInitialCount>
+          <VariableInitialCount Name="signal_Count">signal_Count_initCount</VariableInitialCount>
+          <VariableInitialCount Name="analyte_inside_Count">analyte_inside_Count_initCount</VariableInitialCount>
+          <VariableInitialCount Name="signal_inside_Count">signal_inside_Count_initCount</VariableInitialCount>
+          <VariableInitialCount Name="signal_operon_Count">signal_operon_Count_initCount</VariableInitialCount>
+          <VariableInitialCount Name="signal_mrna_Count">signal_mrna_Count_initCount</VariableInitialCount>
+          <VariableInitialCount Name="analyte_operon_Count">analyte_operon_Count_initCount</VariableInitialCount>
+          <VariableInitialCount Name="bound_analyte_Count">bound_analyte_Count_initCount</VariableInitialCount>
+          <VariableInitialCount Name="bound_signal_Count">bound_signal_Count_initCount</VariableInitialCount>
+          <VariableInitialCount Name="reporter_mrna_Count">reporter_mrna_Count_initCount</VariableInitialCount>
+          <VariableInitialCount Name="reporter_Count">reporter_Count_initCount</VariableInitialCount>
+          <VariableInitialCount Name="degraded_Count">degraded_Count_initCount</VariableInitialCount>
+          <JumpProcess Name="a_diffuse">
+            <ProbabilityRate>P_a_diffuse_probabilityRate</ProbabilityRate>
+            <Effect VarName="analyte_Count" Operation="inc">-1.0</Effect>
+            <Effect VarName="analyte_inside_Count" Operation="inc">1.0</Effect>
+          </JumpProcess>
+          <JumpProcess Name="a_diffuse_reverse">
+            <ProbabilityRate>P_a_diffuse_reverse_probabilityRate</ProbabilityRate>
+            <Effect VarName="analyte_Count" Operation="inc">1.0</Effect>
+            <Effect VarName="analyte_inside_Count" Operation="inc">-1.0</Effect>
+          </JumpProcess>
+          <JumpProcess Name="analyte_bind">
+            <ProbabilityRate>P_analyte_bind_probabilityRate</ProbabilityRate>
+            <Effect VarName="analyte_inside_Count" Operation="inc">-1.0</Effect>
+            <Effect VarName="analyte_operon_Count" Operation="inc">-1.0</Effect>
+            <Effect VarName="bound_analyte_Count" Operation="inc">1.0</Effect>
+          </JumpProcess>
+          <JumpProcess Name="analyte_bind_reverse">
+            <ProbabilityRate>P_analyte_bind_reverse_probabilityRate</ProbabilityRate>
+            <Effect VarName="analyte_inside_Count" Operation="inc">1.0</Effect>
+            <Effect VarName="analyte_operon_Count" Operation="inc">1.0</Effect>
+            <Effect VarName="bound_analyte_Count" Operation="inc">-1.0</Effect>
+          </JumpProcess>
+          <JumpProcess Name="signal_transcribe">
+            <ProbabilityRate>P_signal_transcribe_probabilityRate</ProbabilityRate>
+            <Effect VarName="signal_mrna_Count" Operation="inc">1.0</Effect>
+            <Effect VarName="bound_analyte_Count" Operation="inc">0.0</Effect>
+          </JumpProcess>
+          <JumpProcess Name="signal_transcribe_reverse">
+            <ProbabilityRate>P_signal_transcribe_reverse_probabilityRate</ProbabilityRate>
+            <Effect VarName="signal_mrna_Count" Operation="inc">-1.0</Effect>
+            <Effect VarName="bound_analyte_Count" Operation="inc">0.0</Effect>
+          </JumpProcess>
+          <JumpProcess Name="signal_bind">
+            <ProbabilityRate>P_signal_bind_probabilityRate</ProbabilityRate>
+            <Effect VarName="signal_inside_Count" Operation="inc">-1.0</Effect>
+            <Effect VarName="signal_operon_Count" Operation="inc">-1.0</Effect>
+            <Effect VarName="bound_signal_Count" Operation="inc">1.0</Effect>
+          </JumpProcess>
+          <JumpProcess Name="signal_bind_reverse">
+            <ProbabilityRate>P_signal_bind_reverse_probabilityRate</ProbabilityRate>
+            <Effect VarName="signal_inside_Count" Operation="inc">1.0</Effect>
+            <Effect VarName="signal_operon_Count" Operation="inc">1.0</Effect>
+            <Effect VarName="bound_signal_Count" Operation="inc">-1.0</Effect>
+          </JumpProcess>
+          <JumpProcess Name="signal_translate">
+            <ProbabilityRate>P_signal_translate_probabilityRate</ProbabilityRate>
+            <Effect VarName="signal_inside_Count" Operation="inc">1.0</Effect>
+            <Effect VarName="signal_mrna_Count" Operation="inc">0.0</Effect>
+          </JumpProcess>
+          <JumpProcess Name="signal_translate_reverse">
+            <ProbabilityRate>P_signal_translate_reverse_probabilityRate</ProbabilityRate>
+            <Effect VarName="signal_inside_Count" Operation="inc">-1.0</Effect>
+            <Effect VarName="signal_mrna_Count" Operation="inc">0.0</Effect>
+          </JumpProcess>
+          <JumpProcess Name="s_diffuse">
+            <ProbabilityRate>P_s_diffuse_probabilityRate</ProbabilityRate>
+            <Effect VarName="signal_Count" Operation="inc">-1.0</Effect>
+            <Effect VarName="signal_inside_Count" Operation="inc">1.0</Effect>
+          </JumpProcess>
+          <JumpProcess Name="s_diffuse_reverse">
+            <ProbabilityRate>P_s_diffuse_reverse_probabilityRate</ProbabilityRate>
+            <Effect VarName="signal_Count" Operation="inc">1.0</Effect>
+            <Effect VarName="signal_inside_Count" Operation="inc">-1.0</Effect>
+          </JumpProcess>
+          <JumpProcess Name="repoter_transcribe">
+            <ProbabilityRate>P_repoter_transcribe_probabilityRate</ProbabilityRate>
+            <Effect VarName="reporter_mrna_Count" Operation="inc">1.0</Effect>
+            <Effect VarName="bound_signal_Count" Operation="inc">0.0</Effect>
+          </JumpProcess>
+          <JumpProcess Name="repoter_transcribe_reverse">
+            <ProbabilityRate>P_repoter_transcribe_reverse_probabilityRate</ProbabilityRate>
+            <Effect VarName="reporter_mrna_Count" Operation="inc">-1.0</Effect>
+            <Effect VarName="bound_signal_Count" Operation="inc">0.0</Effect>
+          </JumpProcess>
+          <JumpProcess Name="reporter_translate">
+            <ProbabilityRate>P_reporter_translate_probabilityRate</ProbabilityRate>
+            <Effect VarName="reporter_Count" Operation="inc">1.0</Effect>
+            <Effect VarName="reporter_mrna_Count" Operation="inc">0.0</Effect>
+          </JumpProcess>
+          <JumpProcess Name="reporter_translate_reverse">
+            <ProbabilityRate>P_reporter_translate_reverse_probabilityRate</ProbabilityRate>
+            <Effect VarName="reporter_Count" Operation="inc">-1.0</Effect>
+            <Effect VarName="reporter_mrna_Count" Operation="inc">0.0</Effect>
+          </JumpProcess>
+          <JumpProcess Name="signal_mrna_degrade">
+            <ProbabilityRate>P_signal_mrna_degrade_probabilityRate</ProbabilityRate>
+            <Effect VarName="signal_mrna_Count" Operation="inc">-1.0</Effect>
+            <Effect VarName="degraded_Count" Operation="inc">1.0</Effect>
+          </JumpProcess>
+          <JumpProcess Name="signal_mrna_degrade_reverse">
+            <ProbabilityRate>P_signal_mrna_degrade_reverse_probabilityRate</ProbabilityRate>
+            <Effect VarName="signal_mrna_Count" Operation="inc">1.0</Effect>
+            <Effect VarName="degraded_Count" Operation="inc">-1.0</Effect>
+          </JumpProcess>
+          <JumpProcess Name="reporter_mrna_degrade">
+            <ProbabilityRate>P_reporter_mrna_degrade_probabilityRate</ProbabilityRate>
+            <Effect VarName="reporter_mrna_Count" Operation="inc">-1.0</Effect>
+            <Effect VarName="degraded_Count" Operation="inc">1.0</Effect>
+          </JumpProcess>
+          <JumpProcess Name="reporter_mrna_degrade_reverse">
+            <ProbabilityRate>P_reporter_mrna_degrade_reverse_probabilityRate</ProbabilityRate>
+            <Effect VarName="reporter_mrna_Count" Operation="inc">1.0</Effect>
+            <Effect VarName="degraded_Count" Operation="inc">-1.0</Effect>
+          </JumpProcess>
+          <JumpProcess Name="reporter_degrade">
+            <ProbabilityRate>P_reporter_degrade_probabilityRate</ProbabilityRate>
+            <Effect VarName="reporter_Count" Operation="inc">-1.0</Effect>
+            <Effect VarName="degraded_Count" Operation="inc">1.0</Effect>
+          </JumpProcess>
+          <JumpProcess Name="reporter_degrade_reverse">
+            <ProbabilityRate>P_reporter_degrade_reverse_probabilityRate</ProbabilityRate>
+            <Effect VarName="reporter_Count" Operation="inc">1.0</Effect>
+            <Effect VarName="degraded_Count" Operation="inc">-1.0</Effect>
+          </JumpProcess>
+        </CompartmentSubDomain>
+        <Version Name="Application0_generated" KeyValue="270077142" BranchId="270076447" Archived="0" Date="18-Mar-2024 22:02:30" FromVersionable="false">
+          <Owner Name="dglVcell" Identifier="202231687" />
+          <GroupAccess Type="1" />
+        </Version>
+      </MathDescription>
+      <Simulation Name="Simulation0">
+        <SolverTaskDescription TaskType="Unsteady" UseSymbolicJacobian="false" Solver="Gibson (Next Reaction Stochastic Method)">
+          <TimeBound StartTime="0.0" EndTime="20.0" />
+          <TimeStep DefaultTime="0.1" MinTime="1.0E-8" MaxTime="1.0" />
+          <ErrorTolerance Absolut="1.0E-9" Relative="1.0E-8" />
+          <StochSimOptions UseCustomSeed="false" NumberOfTrial="1" Histogram="false" />
+          <OutputOptions OutputTimeStep="0.05" />
+          <NumberProcessors>1</NumberProcessors>
+        </SolverTaskDescription>
+        <MathOverrides />
+        <Version Name="Simulation0" KeyValue="270077242" BranchId="270076550" Archived="0" Date="18-Mar-2024 22:02:31" FromVersionable="false">
+          <Owner Name="dglVcell" Identifier="202231687" />
+          <GroupAccess Type="1" />
+        </Version>
+      </Simulation>
+      <Version Name="Application0" KeyValue="270077215" BranchId="270076522" Archived="0" Date="18-Mar-2024 22:02:31" FromVersionable="false">
+        <Owner Name="dglVcell" Identifier="202231687" />
+        <GroupAccess Type="1" />
+      </Version>
+      <MicroscopeMeasurement Name="fluor">
+        <ConvolutionKernel Type="ProjectionZKernel" />
+      </MicroscopeMeasurement>
+    </SimulationSpec>
+    <Version Name="SF-detector" KeyValue="270077244" BranchId="270076553" Archived="0" Date="18-Mar-2024 22:02:31" FromVersionable="false">
+      <Owner Name="dglVcell" Identifier="202231687" />
+      <GroupAccess Type="1" />
+    </Version>
+    <pathwayModel>
+      <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bp="http://www.biopax.org/release/biopax-level3.owl#" version="3.0" />
+    </pathwayModel>
+    <relationshipModel>
+      <RMNS version="3.0" />
+    </relationshipModel>
+    <vcmetadata>
+      <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" />
+      <nonrdfAnnotationList />
+      <uriBindingList />
+    </vcmetadata>
+  </BioModel>
+</vcml>
+
